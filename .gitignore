@@ -1,0 +1,8 @@
+.env
+credentials/
+runs/
+*.pdf
+__pycache__/
+*.pyc
+.venv/
+fonts/*.ttf
