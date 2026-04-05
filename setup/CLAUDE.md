@@ -57,58 +57,33 @@
    └────────────┘
 ```
 
-### データフロー
+## 使い方
 
-```
-Notta等で文字起こし済みテキスト
-  │
-  ├──[Claude Code]───────► proposals.json
-  │                         ├─ 企画案1: {title, concept, scenes[], cost_factors}
-  │                         ├─ 企画案2: ...
-  │                         └─ 企画案3: ...
-  │
-  └──[python main.py]
-       │
-       ├──[Sheets API]──────► rate_table  ← スプシ「単価」タブから読込
-       │
-       ├──[見積計算]─────────► estimates  ← rate_table × cost_factors
-       │
-       ├──[fpdf2]───────────► estimate.pdf (日本語対応)
-       │
-       ├──[Google Docs API]─► proposal_doc_url (企画案ドキュメント)
-       │
-       ├──[Drive API]───────► pdf_url (見積PDFリンク)
-       │
-       ├──[Sheets API]──────► 「管理」タブに1行追加
-       │
-       └──[SMTP]────────────► メール通知
+ターミナルでこのフォルダに移動し、Claude Code を起動する:
+
+```bash
+cd /path/to/daichi-automation
+claude
 ```
 
-## ワークフロー
+以下のように依頼する:
 
-daichi がNotta等で文字起こししたテキストファイルをローカルに配置し、Claude Code に依頼する。
+```
+この書き起こしテキストを読んで、動画企画案3つと見積書を作って。
+テキスト: /path/to/transcript.txt
+案件名: 田中様インタビュー
+```
 
-**依頼例:**
-> この書き起こしテキストを読んで、動画企画案3つと見積書を作って。
-> テキスト: /path/to/transcript.txt
-> 案件名: 田中様インタビュー
-
-**Claude Code の実行手順:**
-1. 指定されたテキストファイルを Read ツールで読み込む
-2. テキスト内容を分析し、企画案を3つ生成する
-   - 1つ目: 王道・安定した構成
-   - 2つ目: 斬新・チャレンジ的な構成
-   - 3つ目: コスパ重視・ミニマルな構成
-3. `runs/<案件名>/proposals.json` に書き出す（Write ツール使用）
-4. 以下のコマンドを実行:
-   ```
-   python main.py runs/<案件名>/proposals.json --name <案件名>
-   ```
-5. 実行結果（企画案URL, 見積書URL）をユーザーに報告する
+Claude Code が自動で以下を実行する:
+1. テキストを読み込んで企画案を3つ生成
+2. 見積書PDFを生成
+3. Google Driveに企画案ドキュメントと見積PDFをアップロード
+4. スプレッドシートに記録
+5. メールで完了通知
 
 ## proposals.json のフォーマット
 
-Claude Code が生成する企画案JSON。**必ずこの形式で出力すること。**
+Claude Code が自動生成するが、参考用にフォーマットを記載。
 
 ```json
 {
@@ -153,7 +128,6 @@ Claude Code が生成する企画案JSON。**必ずこの形式で出力する�
 | needs_bgm | bool | BGM/SE有無 |
 
 これらの値はスプシ「単価」タブの単価と掛け合わせて見積り金額が算出される。
-現実的な数値を設定すること。
 
 ## スプレッドシート構成
 
@@ -189,67 +163,3 @@ python main.py proposals.json --name 案件名 --dry-run
 # 途中で失敗した場合の再開
 python main.py proposals.json --name 案件名 --resume
 ```
-
-## セットアップ
-
-### 1. Python依存パッケージ
-```bash
-pip install -r requirements.txt
-```
-
-### 2. 環境変数
-`.env.example` をコピーして `.env` を作成し、各値を設定:
-```bash
-cp .env.example .env
-```
-
-### 3. Google Cloud
-1. Google Cloud Console でプロジェクト作成
-2. 以下のAPIを有効化:
-   - Google Drive API
-   - Google Sheets API
-   - Google Docs API
-3. サービスアカウント作成 → JSONキーをダウンロード
-4. `credentials/service-account.json` に配置
-5. Drive フォルダとスプレッドシートをサービスアカウントのメールアドレスに共有
-
-### 4. Gmail
-1. Googleアカウントで2段階認証を有効化
-2. アプリパスワードを生成
-3. `.env` の `GMAIL_ADDRESS` と `GMAIL_APP_PASSWORD` に設定
-
-### 5. 日本語フォント
-`fonts/NotoSansJP-Regular.ttf` を配置（PDF日本語表示用）。
-Google Fonts からダウンロード可能。
-
-### 6. 文字起こし
-Notta等の文字起こしサービスでインタビュー音声をテキスト化し、ローカルにファイルとして保存する。
-Claude Code はこのテキストファイルを読み込んで企画案を生成する。
-
-### 7. GitHubリポジトリを Public にする
-daichi が Claude Code の Proプランでこのリポジトリを使うため、リポジトリを Public に設定する。
-GitHub → Settings → Danger Zone → Change visibility → Public
-
-## TODO
-
-### Step 1: Google Cloud & インフラ準備
-- [ ] Google Cloud プロジェクト作成 + API有効化 (Drive / Sheets / Docs)
-- [ ] サービスアカウント作成 → JSON キーを `credentials/` に配置
-- [ ] Drive に納品用フォルダ作成 → サービスアカウントに共有
-- [ ] スプレッドシート作成（「単価」タブ + 「管理」タブ）→ サービスアカウントに共有
-- [ ] 「単価」タブに単価テーブルを入力
-- [ ] `.env` を作成 ← Drive ID・スプシID等、Step 1の成果物で大半が埋まる
-
-### Step 2: ローカル環境セットアップ
-- [ ] Gmail アプリパスワード生成 → `.env` に追記
-- [ ] `fonts/NotoSansJP-Regular.ttf` を配置
-- [ ] `pip install -r requirements.txt` 実行
-
-### Step 3: 公開 & daichi側準備
-- [ ] GitHub リポジトリを Public に変更
-- [ ] daichi の PC に Claude Code + Pro プランをセットアップ
-- [ ] （任意）daichi に文字起こしサービス（Notta等）を契約してもらう ← 入力テキストの用意方法はdaichiに任せる
-
-### Step 4: テスト & レクチャー
-- [ ] テスト用の書き起こしテキストで全フロー通し実行 ← テストファイル準備済み
-- [ ] daichi に操作手順をレクチャー

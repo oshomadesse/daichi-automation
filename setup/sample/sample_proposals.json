@@ -1,0 +1,147 @@
+{
+  "proposals": [
+    {
+      "title": "社長の想いを届ける - 創業ストーリー動画",
+      "concept": "創業から現在までの歩みを、社長自身の言葉で語るドキュメンタリー風動画。信頼感と共感を生む構成で、採用や企業ブランディングに活用できる。",
+      "target_audience": "求職者・取引先・既存顧客",
+      "duration_seconds": 180,
+      "scenes": [
+        {
+          "scene_number": 1,
+          "description": "オフィス全景と社員の働く様子。ナレーションで会社概要を紹介",
+          "duration_seconds": 30,
+          "visual_notes": "ドローン風の俯瞰ショット、朝の光が差し込む雰囲気"
+        },
+        {
+          "scene_number": 2,
+          "description": "社長インタビュー。創業のきっかけと想いを語る",
+          "duration_seconds": 60,
+          "visual_notes": "落ち着いた背景、バストアップ、自然光"
+        },
+        {
+          "scene_number": 3,
+          "description": "事業内容の紹介。実際のサービス・製品の映像を交えて",
+          "duration_seconds": 45,
+          "visual_notes": "現場の活気ある映像、テロップで数字を強調"
+        },
+        {
+          "scene_number": 4,
+          "description": "今後のビジョンと視聴者へのメッセージ",
+          "duration_seconds": 45,
+          "visual_notes": "未来感のある映像、社長の力強い表情"
+        }
+      ],
+      "key_messages": [
+        "創業の原点にある社長の情熱",
+        "顧客と社会に提供する価値",
+        "これからの成長ビジョン"
+      ],
+      "tone": "プロフェッショナル",
+      "cost_factors": {
+        "shooting_days": 2,
+        "locations": 1,
+        "talent_count": 1,
+        "post_production_days": 3,
+        "needs_narration": true,
+        "needs_bgm": true
+      }
+    },
+    {
+      "title": "密着24時！リアルな職場ドキュメント",
+      "concept": "社員の1日に密着し、リアルな職場の雰囲気を伝えるドキュメンタリー。台本なしの自然な会話と表情で、会社の「人」の魅力を前面に出す。",
+      "target_audience": "求職者・学生",
+      "duration_seconds": 240,
+      "scenes": [
+        {
+          "scene_number": 1,
+          "description": "朝の出勤シーン。主人公社員の自己紹介",
+          "duration_seconds": 30,
+          "visual_notes": "ハンディカメラ風、軽快なBGM"
+        },
+        {
+          "scene_number": 2,
+          "description": "午前の業務風景。チームとのやり取り、会議の様子",
+          "duration_seconds": 60,
+          "visual_notes": "自然光、ドキュメンタリータッチ"
+        },
+        {
+          "scene_number": 3,
+          "description": "ランチタイム。同僚との雑談で素の表情を引き出す",
+          "duration_seconds": 40,
+          "visual_notes": "カジュアルな雰囲気、笑顔を中心に"
+        },
+        {
+          "scene_number": 4,
+          "description": "午後の業務。集中して取り組む姿とやりがいを語るシーン",
+          "duration_seconds": 60,
+          "visual_notes": "クローズアップ、真剣な表情"
+        },
+        {
+          "scene_number": 5,
+          "description": "退勤。1日を振り返っての感想とメッセージ",
+          "duration_seconds": 50,
+          "visual_notes": "夕方の光、エモーショナルなBGM"
+        }
+      ],
+      "key_messages": [
+        "リアルな職場の雰囲気",
+        "社員同士の良好な関係性",
+        "仕事のやりがいと成長環境"
+      ],
+      "tone": "カジュアル",
+      "cost_factors": {
+        "shooting_days": 3,
+        "locations": 2,
+        "talent_count": 3,
+        "post_production_days": 4,
+        "needs_narration": false,
+        "needs_bgm": true
+      }
+    },
+    {
+      "title": "60秒で伝わる会社紹介ショート",
+      "concept": "SNS向けの短尺動画。テンポの良いカット割りとキャッチーなテロップで、会社の魅力を60秒に凝縮。低コストで高いリーチを狙う。",
+      "target_audience": "SNSユーザー・若年層",
+      "duration_seconds": 60,
+      "scenes": [
+        {
+          "scene_number": 1,
+          "description": "インパクトのあるオープニング。キャッチコピーをドンと表示",
+          "duration_seconds": 5,
+          "visual_notes": "太字テロップ、動きのあるトランジション"
+        },
+        {
+          "scene_number": 2,
+          "description": "会社のハイライトを短いカットで連続表示",
+          "duration_seconds": 25,
+          "visual_notes": "1カット2-3秒、テンポ重視、テロップ多め"
+        },
+        {
+          "scene_number": 3,
+          "description": "社員の一言コメントを3人分",
+          "duration_seconds": 20,
+          "visual_notes": "縦型対応、字幕付き"
+        },
+        {
+          "scene_number": 4,
+          "description": "CTA（問い合わせ・採用ページへの誘導）",
+          "duration_seconds": 10,
+          "visual_notes": "ロゴ、URL、QRコード表示"
+        }
+      ],
+      "key_messages": [
+        "短時間で会社の魅力を凝縮",
+        "SNSでシェアしたくなる内容"
+      ],
+      "tone": "エネルギッシュ",
+      "cost_factors": {
+        "shooting_days": 1,
+        "locations": 1,
+        "talent_count": 3,
+        "post_production_days": 2,
+        "needs_narration": false,
+        "needs_bgm": true
+      }
+    }
+  ]
+}
