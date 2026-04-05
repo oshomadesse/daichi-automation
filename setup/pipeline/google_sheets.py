@@ -1,18 +1,13 @@
 from datetime import date
 
-from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
 import config
-
-SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
+from pipeline.auth import get_credentials
 
 
 def _get_service():
-    creds = service_account.Credentials.from_service_account_file(
-        config.GOOGLE_SERVICE_ACCOUNT_FILE, scopes=SCOPES
-    )
-    return build("sheets", "v4", credentials=creds)
+    return build("sheets", "v4", credentials=get_credentials())
 
 
 def read_rate_table() -> dict:

@@ -107,52 +107,60 @@ https://console.cloud.google.com にアクセスしてGoogleアカウントで�
 2. `Google Sheets API` → 有効にする
 3. `Google Docs API` → 有効にする
 
-### 3-4. サービスアカウントを作成
+### 3-4. OAuth 同意画面を設定
 
-1. 左メニュー → 「IAMと管理」→「サービスアカウント」
-2. 「+ サービスアカウントを作成」をクリック
-3. サービスアカウント名: `daichi-automation`
-4. 「作成して続行」→ ロールはスキップ →「完了」
+1. 左メニュー →「Google Auth Platform」→「概要」
+2. 「開始」をクリック（初回の場合）
+3. アプリ名: `daichi-automation`
+4. ユーザーサポートメール: 自分のGmailアドレス
+5. 対象: 「外部」を選択
+6. 「保存」
 
-### 3-5. JSON キーをダウンロード
+### 3-5. テストユーザーを追加
 
-1. 作成したサービスアカウントの行の右端「...」→「鍵を管理」
-2. 「鍵を追加」→「新しい鍵を作成」
-3. JSON を選択 →「作成」
-4. JSONファイルが自動ダウンロードされる
+1. 左メニュー →「対象」
+2. 「テストユーザーを追加」をクリック
+3. 自分のGmailアドレスを入力して保存
 
-ダウンロードしたファイルを `credentials/` に配置:
+### 3-6. OAuth クライアントIDを作成
+
+1. 左メニュー →「クライアント」
+2. 「+ クライアントを作成」をクリック
+3. アプリケーションの種類: 「デスクトップアプリ」
+4. 名前: `daichi-automation-desktop`（なんでもOK）
+5. 「作成」をクリック
+
+### 3-7. JSON キーをダウンロード
+
+1. 作成したクライアントの行の右端にあるダウンロードボタン（↓）をクリック
+2. 「JSONをダウンロード」を選択
+3. ダウンロードしたファイルを `credentials/` に配置:
 
 ```bash
-mv ~/Downloads/ダウンロードされたファイル名.json ~/Desktop/daichi-automation/credentials/service-account.json
+mv ~/Downloads/client_secret_*.json ~/Desktop/daichi-automation/credentials/client_secret.json
 ```
 
-**サービスアカウントのメールアドレス**（`xxx@xxx.iam.gserviceaccount.com`の形式）を控えておく。次のステップで使う。
-
-### 3-6. Google Drive にフォルダを作成
+### 3-8. Google Drive にフォルダを作成
 
 1. https://drive.google.com を開く
 2. 「+ 新規」→「新しいフォルダ」
 3. フォルダ名: `daichi-納品`（なんでもOK）
-4. 作成したフォルダを右クリック →「共有」
-5. 3-5 で控えたサービスアカウントのメールアドレスを入力
-6. 権限を「編集者」にして「送信」
 
 **フォルダIDをメモ:**
 フォルダを開いた状態のURLから取得:
 `https://drive.google.com/drive/folders/【ここがフォルダID】`
 
-### 3-7. スプレッドシートを作成
+### 3-9. スプレッドシートを作成
 
-1. 3-6 で作ったDriveフォルダの中で「+ 新規」→「Google スプレッドシート」
+1. 3-8 で作ったDriveフォルダの中で「+ 新規」→「Google スプレッドシート」
 2. スプレッドシート名: `daichi-管理シート`（なんでもOK）
 
-### 3-8. タブを設定
+### 3-10. タブを設定
 
 1. シート下部の「シート1」タブを右クリック →「名前を変更」→ `単価` に変更
 2. シート下部の「+」をクリックして新しいタブ追加 → `管理` に名前変更
 
-### 3-9. 単価タブにデータを入力
+### 3-11. 単価タブにデータを入力
 
 「単価」タブのA1セルから以下を入力:
 
@@ -171,7 +179,7 @@ mv ~/Downloads/ダウンロードされたファイル名.json ~/Desktop/daichi-
 - **費目名（A列）の変更や行の追加・削除はしないこと**（コードが費目名で計算しているため）
 - 費目を変更・追加したい場合は、Claude Code に「単価タブの費目を変更したい」と相談すれば、コードも一緒に修正してくれる
 
-### 3-10. スプレッドシートIDをメモ
+### 3-12. スプレッドシートIDをメモ
 
 URLから取得:
 `https://docs.google.com/spreadsheets/d/【ここがスプレッドシートID】/edit`
@@ -207,11 +215,11 @@ open -e ~/Desktop/daichi-automation/.env
 ```
 GOOGLE_DRIVE_FOLDER_ID=ここにDriveフォルダIDを貼り付け
 ↓
-GOOGLE_DRIVE_FOLDER_ID=1ABCxyz123456789     ← Step 3-6 でメモしたID
+GOOGLE_DRIVE_FOLDER_ID=1ABCxyz123456789     ← Step 3-8 でメモしたID
 
 GOOGLE_SPREADSHEET_ID=ここにスプレッドシートIDを貼り付け
 ↓
-GOOGLE_SPREADSHEET_ID=1DEFabc987654321     ← Step 3-10 でメモしたID
+GOOGLE_SPREADSHEET_ID=1DEFabc987654321     ← Step 3-12 でメモしたID
 
 GMAIL_ADDRESS=ここに自分のGmailアドレス
 ↓
@@ -238,6 +246,9 @@ NOTIFY_TO=daichi@gmail.com                 ← 自分宛ならGMAIL_ADDRESSと�
 cd ~/Desktop/daichi-automation
 python main.py sample/sample_proposals.json --name テスト --dry-run
 ```
+
+**初回実行時にブラウザが開く。** Googleアカウントでログインして許可する。
+「このアプリはGoogleで確認されていません」と出たら「詳細」→「daichi-automation（安全でないページ）に移動」で進む。
 
 `--dry-run` はDriveアップロードとメール送信をスキップするモード。
 PDFが `runs/` フォルダに生成されていれば成功。
@@ -293,8 +304,17 @@ brew install python
 
 ### 「認証エラー」が出る
 
-- `credentials/service-account.json` が正しく配置されているか確認
-- Driveフォルダとスプレッドシートがサービスアカウントに共有されているか確認
+- `credentials/client_secret.json` が正しく配置されているか確認
+- GCPのOAuth同意画面でテストユーザーに自分のGmailが追加されているか確認
+- `credentials/token.json` を削除して再認証を試す:
+
+```bash
+rm credentials/token.json
+```
+
+### 「このアプリはGoogleで確認されていません」と出る
+
+正常な動作。「詳細」→「daichi-automation（安全でないページ）に移動」で進む。
 
 ### 「メール送信に失敗」する
 
